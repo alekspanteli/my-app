@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HouseRow from "./house-row";
+import AddButton from "./add-button";
 
 export type House = {
   id: number;
@@ -16,9 +17,17 @@ const housesArray: House[] = [
 ];
 
 export default function HouseList() {
-  const [houses, setHouses] = useState<House[]>(housesArray);
+  const [houses, setHouses] = useState<House[]>([]);
 
-  const addHouse = () => {
+  useEffect(() => {
+    async function fetchHouses() {
+      // await new Promise((resolve) => setTimeout(resolve, 500));
+      setHouses(housesArray);
+    }
+    fetchHouses();
+  }, []);
+
+  function handleAddHouse() {
     setHouses([
       ...houses,
       {
@@ -28,7 +37,8 @@ export default function HouseList() {
         price: 65600000,
       },
     ]);
-  };
+  }
+
   return (
     <>
       <h2>House List</h2>
@@ -41,14 +51,12 @@ export default function HouseList() {
           </tr>
         </thead>
         <tbody>
-          {houses.map((houses) => (
-            <HouseRow key={houses.id} {...houses} />
+          {houses.map((house) => (
+            <HouseRow key={house.id} {...house} />
           ))}
         </tbody>
       </table>
-      <button className="bg-blue-500 text-white p-2 rounded-md cursor-pointer" onClick={addHouse}>
-        Add House
-      </button>
+      <AddButton handleAddHouse={handleAddHouse}>Add House</AddButton>
     </>
   );
 }
