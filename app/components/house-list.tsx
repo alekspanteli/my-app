@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { use, useState } from "react";
 import HouseRow from "./house-row";
 import AddButton from "./add-button";
 
@@ -11,21 +11,21 @@ export type House = {
   price: number;
 };
 
-const housesArray: House[] = [
-  { id: 1, name: "House 1", address: "123 Main St", price: 100000 },
-  { id: 2, name: "House 2", address: "456 Main St", price: 200000 },
-];
+// Mock fetch - function that returns a new promise each time to ensure Suspense works on refresh
+function fetchHouses(): Promise<House[]> {
+  return new Promise<House[]>((resolve) => {
+    setTimeout(() => {
+      resolve([
+        { id: 1, name: "House 1", address: "123 Main St", price: 100000 },
+        { id: 2, name: "House 2", address: "456 Main St", price: 200000 },
+      ]);
+    }, 1000);
+  });
+}
 
 export default function HouseList() {
-  const [houses, setHouses] = useState<House[]>([]);
-
-  useEffect(() => {
-    async function fetchHouses() {
-      // await new Promise((resolve) => setTimeout(resolve, 500));
-      setHouses(housesArray);
-    }
-    fetchHouses();
-  }, []);
+  const houseResult = use(fetchHouses());
+  const [houses, setHouses] = useState<House[]>(houseResult);
 
   function handleAddHouse() {
     setHouses([
