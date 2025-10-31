@@ -11,7 +11,7 @@ export type House = {
   price: number;
 };
 
-export default function HouseList() {
+export default function HouseList({ selectedHouse }: { selectedHouse: (house: House) => void }) {
   const [houses, setHouses] = useState<House[]>([]);
   const inputElement = useRef<HTMLInputElement>(null);
   useEffect(() => {
@@ -54,12 +54,12 @@ export default function HouseList() {
         </thead>
         <tbody>
           {houses.map((house) => (
-            <HouseRow key={house.id} {...house} />
+            <HouseRow key={house.id} house={house} selectedHouse={selectedHouse} />
           ))}
         </tbody>
       </table>
       <AddButton handleAddHouse={handleAddHouse}>Add House</AddButton>
-      <button onClick={focusInput}>Focus Input</button>
+      
       <input type="text" ref={inputElement} onBlur={focusInput} />
     </>
   );

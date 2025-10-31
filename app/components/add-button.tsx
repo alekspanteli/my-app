@@ -1,11 +1,12 @@
-import { PropsWithChildren } from "react";
+type AddButtonProps = {
+  handleAddHouse: () => void;
+  children: React.ReactNode;
+};
 
 export default function AddButton({
   handleAddHouse,
   children,
-}: PropsWithChildren<{
-  handleAddHouse: () => void;
-}>) {
+}: AddButtonProps) {
   return (
     <button
       className="bg-blue-500 text-white p-2 rounded-md cursor-pointer"
@@ -15,4 +16,3 @@ export default function AddButton({
     </button>
   );
 }
- 

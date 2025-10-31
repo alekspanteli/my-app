@@ -1,11 +1,22 @@
 import { House } from "./house-list";
 
-export default function HouseRow({name, address, price}: Omit<House, 'id'>) {
+type HouseRowProps = {
+  house: House;
+  selectedHouse: (house: House) => void;
+}
+
+export default function HouseRow({ house, selectedHouse }: HouseRowProps) {
   return (
-    <tr>
-      <td>{name}</td>
-      <td>{address}</td>
-      <td>{price}</td>
+    <tr onClick={() => selectedHouse(house)} className="cursor-pointer hover:bg-gray-100">
+      <td>{house.name}</td>
+      <td>{house.address}</td>
+      {house.price && (
+        <td
+          className={`${house.price > 1000000 ? "text-green-500" : "text-red-500"}`}
+        >
+          {house.price}
+        </td>
+      )}
     </tr>
   );
 }
