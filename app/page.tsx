@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import Banner from "./components/banner";
 import BannerChildren from "./components/banner-children";
 import HouseList from "./components/house-list";
@@ -16,9 +15,7 @@ export default function Home() {
       <hr />
       {myvariable}
       <hr />
-      <Suspense fallback={<div>Loading...</div>}>
-        <HouseList />
-      </Suspense>
+      <HouseList />
     </div>
   );
 }
