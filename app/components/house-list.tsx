@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import HouseRow from "./house-row";
 import AddButton from "./add-button";
 
@@ -13,7 +13,7 @@ export type House = {
 
 export default function HouseList() {
   const [houses, setHouses] = useState<House[]>([]);
-
+  const inputElement = useRef<HTMLInputElement>(null);
   useEffect(() => {
     const fetchHouses = async () => {
       const response = await fetch("/api/houses");
@@ -22,6 +22,12 @@ export default function HouseList() {
     };
     fetchHouses();
   }, []);
+
+  function focusInput() {
+    if (inputElement.current) {
+      inputElement.current.focus();
+    }
+  }
 
   function handleAddHouse() {
     setHouses([
@@ -53,6 +59,8 @@ export default function HouseList() {
         </tbody>
       </table>
       <AddButton handleAddHouse={handleAddHouse}>Add House</AddButton>
+      <button onClick={focusInput}>Focus Input</button>
+      <input type="text" ref={inputElement} onBlur={focusInput} />
     </>
   );
 }
